@@ -51,10 +51,6 @@ To run the included example session, add `example_data` to the path with
 `addpath('example_data')` and follow [RUNNING_THE_CODE.md](RUNNING_THE_CODE.md),
 which lists the file names to update before running.
 
-```matlab
-addpath('example_data');
-```
-
 The session comprises eight files:
 
 | File | Contents |
