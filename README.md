@@ -47,7 +47,9 @@ The preprocessing scripts synchronize the raw acquisition streams into a single 
 
 Preprocessing is run once per session and saves one `.mat` file per session, named for that session. File names carry the experimental metadata (animal ID, nutritional state, food type, and manipulation) and are parsed by the pipeline scripts, so the naming convention should be preserved.
 
-To run the included example session, add `example_data` to the path and follow [RUNNING_THE_CODE.md](RUNNING_THE_CODE.md), which lists the file names to update before running.
+To run the included example session, add `example_data` to the path with
+`addpath('example_data')` and follow [RUNNING_THE_CODE.md](RUNNING_THE_CODE.md),
+which lists the file names to update before running.
 
 ```matlab
 addpath('example_data');
