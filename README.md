@@ -3,7 +3,7 @@ This repository contains the code used to produce the analyses and figures in Gr
 
 The code processes fiber photometry recordings of AgRP neuron activity acquired alongside video tracking during three behavioral assays, and reproduces the quantifications, statistics, and figure panels reported in the manuscript.
 
-Requirements
+**Requirements**
 MATLAB R2019b or later
 Statistics and Machine Learning Toolbox (fitlm, anova1, anovan, fitrm, ranova, multcompare, ranksum, kruskalwallis, ksdensity)
 Image Processing Toolbox (imgaussfilt, used for spatial smoothing of occupancy and activity heatmaps)
@@ -13,11 +13,11 @@ No installation is required. Clone or download the repository, then add common_f
 addpath(genpath('common_functions'));
 addpath(genpath('one_source_maze'));   % or 'three_sources_maze', or 'cheeseboard' 
 
-Repository organization
+**Repository organization**
 
 The repository is divided into three modules, one per behavioral assay. Each contains a preprocessing script, a top-level pipeline script, and a functions folder holding the analysis and plotting routines it calls. Helpers shared across modules live in common_functions.
 
-Folders
+**Folders**
 
 One_source_maze: 	Three-arm maze with a single food source; includes the GLM analyses
 Three_sources_maze: 	Three-arm maze with three sources behind mesh doors, across sessions and light/dark conditions
