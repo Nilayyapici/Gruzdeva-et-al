@@ -58,7 +58,6 @@ Two further sets of values are session-specific:
 | Line | What it is |
 | --- | --- |
 | 234–236 | `door_remov1`, `door1`, `door_remov2` — top-camera frame numbers at which the door was removed and replaced, read off the video. The values in the file are from the example session and are wrong for any other. |
-| 806–808 | Saving block, commented out. Uncomment, set the destination folder, and name the output variable and file following the convention below. |
 
 ### Scored-event file format
 
@@ -76,10 +75,9 @@ The three event files are comma-separated start/end frame pairs, one event per r
 | 6 | `Analog_table` | Photometry analog input |
 | 8 | `DLC` | DeepLabCut labels |
 | 10 | `food_cam` | Food-camera frame times |
-| 552 | `grooming_frames` | Grooming frames, pasted directly into the script as a numeric array rather than read from a file. Replace with the scored frames for this session. The `readtable` call on line 551 is commented out; uncomment it to supply a CSV instead, in the start/end pair format described above. |
-| 646–648 | saving block | Commented out. Uncomment, set the destination folder, and name the output. |
+| 552 | `grooming_frames` | Grooming frames, pasted directly into the script as a numeric array rather than read from a file. Replace with the scored frames for this session. The `readtable` call on line 551 is commented out; uncomment it to supply a CSV instead, in the start/end pair format described above. 
 
-Door open and close events are derived from frame numbers set earlier in the script — check these against the session video.
+Door open and close events should be filled in manually from the session video
 
 ---
 
@@ -94,7 +92,7 @@ Door open and close events are derived from frame numbers set earlier in the scr
 | 8 | `Analog_table` | Photometry analog input |
 | 9 | `DLC` | DeepLabCut labels |
 | 369 | working directory | Folder holding `Cheeseboard.mat` |
-| 373–375 | index into `Cheeseboard` | Row for the animal being added. Sessions are appended to a shared cell array, so this index must be set to the correct row or an existing session will be silently overwritten. |
+| 373–375 | index into `Cheeseboard` | Row for the animal being added. Sessions are appended to a shared cell array, so this index must be set to the correct row, or an existing session will be silently overwritten. |
 
 **`cheeseboard/Cheeseboard_learning.m`** runs the learning analysis across animals. Set `mouseNames` and `baseDir` near line 24 to the animals to include and the top-level cheeseboard data folder. The batch-conversion steps at the top of the file are commented out and are only needed when processing new recordings; each carries its own `baseDir` to set.
 
@@ -104,7 +102,7 @@ Several cheeseboard functions also carry the original data path as a default arg
 
 ## 4. Object and water control
 
-`object_water/object_water_pipeline.m` has no separate preprocessing script; it reads session matrices produced for the single-source maze. Set `folderPath` on line 3 to the folder holding those `.mat` files.
+`object_water/object_water_pipeline.m` has no separate preprocessing script-the preprocessing was done using `preprocessing_synch_photometry_individual.m`; it reads session matrices produced for the single-source maze. Set `folderPath` on line 3 to the folder holding those `.mat` files.
 
 The `sideMap` assignment near the top records which side each animal's water source was on. Extend it if you add animals.
 
@@ -132,7 +130,7 @@ Each pipeline needs its data directory set at the top:
 - `cheeseboard/Cheeseboard_pipeline.m` (line 3)
 - `object_water/object_water_pipeline.m` (line 3)
 
-They are cell-mode scripts and are meant to be stepped through section by section, not run end to end. Check the pixel-to-centimeter scale near the top of each — it is set per apparatus and per camera position (`pix_to_cm = 0.17` for the maze, `0.16` for the cheeseboard) and needs to be remeasured if the camera has moved.
+They are cell-mode scripts and are meant to be stepped through section by section, not run end to end. Check the pixel-to-centimeter scale near the top of each — it is set per apparatus and per camera position and needs to be remeasured for any new setup.
 
 ---
 
