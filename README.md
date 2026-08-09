@@ -124,8 +124,6 @@ The models comparing predictors of AgRP activity live in `one_source_maze/functi
 - `glm_dff_model_comparison.m` compares the candidate model set reported in Table S2.
 - `glm_dff_per_animal.m` fits the same models within individual animals.
 
-Predictor names follow the manuscript: `spatial_distance` is the distance to the food source, and `temporal_distance` is the smaller of time since the last food encounter and time to the next one.
-
 ## Data availability
 
 One complete raw session is included in `one_source_maze/example_data`, sufficient to run the single-source maze preprocessing script end to end. The remaining raw photometry and behavioral video, and the full set of preprocessed session files needed to reproduce the figures, are archived on Cornell servers and are available from the corresponding author on request.
