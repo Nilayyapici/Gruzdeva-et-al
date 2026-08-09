@@ -75,7 +75,7 @@ The three event files are comma-separated start/end frame pairs, one event per r
 | 6 | `Analog_table` | Photometry analog input |
 | 8 | `DLC` | DeepLabCut labels |
 | 10 | `food_cam` | Food-camera frame times |
-| 552 | `grooming_frames` | Grooming frames, pasted directly into the script as a numeric array rather than read from a file. Replace with the scored frames for this session. The `readtable` call on line 551 is commented out; uncomment it to supply a CSV instead, in the start/end pair format described above. 
+| 552 | `grooming_frames` | Grooming frames, pasted directly into the script as a numeric array rather than read from a file |
 
 Door open and close events should be filled in manually from the session video
 
