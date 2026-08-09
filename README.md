@@ -2,7 +2,7 @@
 
 This repository contains the code used to produce the analyses and figures in Gruzdeva et al., *Hunger neurons track available food locations during foraging and spatial memory recall* (2026).
 
-The code processes fiber photometry recordings of AgRP neuron activity acquired alongside video tracking during four behavioral assays, and reproduces the quantifications, statistics, and figure panels reported in the manuscript. One complete raw session is included so that the preprocessing stage can be run without additional data.
+The code processes fiber photometry recordings of AgRP neuron activity acquired alongside video tracking during three behavioral assays, and reproduces the quantifications, statistics, and figure panels reported in the manuscript. One complete raw session is included so that the preprocessing stage can be run without additional data.
 
 `Figures_code.xlsx` maps every figure panel in the manuscript to the script and the named section within it that generates that panel. It is the fastest way to locate the code behind a specific figure.
 
@@ -22,7 +22,7 @@ addpath(genpath('one_source_maze'));   % or another module
 
 ## Repository organization
 
-The repository is divided into four modules, one per behavioral assay. Each contains a preprocessing script where applicable, a top-level pipeline script, and a `functions` folder whose subfolders group the analysis and plotting routines by purpose. Helpers shared across modules live in `common_functions`.
+The repository is divided into four modules for the analysis of the data from a three-arm maze with one food source (1) or water and an object (2), the three-arm maze with three sources of food (3), and a cheeseboard maze (4). Each contains a preprocessing script where applicable, a top-level pipeline script, and a functions folder whose subfolders group the analysis and plotting routines by purpose.  Helpers shared across modules live in `common_functions`.
 
 | Folder | Contents |
 | --- | --- |
@@ -33,7 +33,7 @@ The repository is divided into four modules, one per behavioral assay. Each cont
 | `common_functions` | Routines used by more than one module |
 | `slanCM` | Third-party colormap library (see Third-party code) |
 
-Within each module, `functions` is organized into subfolders by analysis type — `activity`, `behavior`, `heatmaps`, `runs_analysis`, and, depending on the module, `correlations`, `event_aligned_plots`, `heatmaps_distance_plots`, `GLM`, `helpers`, `validation`, and `setup_sessions_reorganization`. Adding a module with `addpath(genpath(...))` picks all of these up.
+Within each module, `functions` are organized into subfolders by analysis type — `activity`, `behavior`, `heatmaps`, `runs_analysis`, and, depending on the module, `correlations`, `event_aligned_plots`, `heatmaps_distance_plots`, `GLM`, `helpers`, `validation`, and `setup_sessions_reorganization`. Adding a module with `addpath(genpath(...))` picks all of these up.
 
 `common_functions` contains `detect_food_runs`, which segments continuous tracking into individual approach runs toward and away from a food source; `findnearest`, which returns the index of the sample closest to a target value and is used throughout preprocessing to align event times to recorded samples; and `blueWhiteRed`, the diverging colormap used for the activity and difference heatmaps. `detect_food_runs` applies the same detection logic to the single-source and three-source datasets, so run-based measures are directly comparable across the two paradigms; it accepts either data layout and is configured through an optional `cfg` struct documented in its header.
 
@@ -67,11 +67,11 @@ Preprocessing is run once per session and saves one `.mat` file per session, nam
 | `photometry.mat`, `ain.mat` | Photometry and analog channels exported from the Doric console |
 | `example_food_interaction.csv`, `example_eating.csv`, `example_Grooming.csv` | Manually scored event frames, as start/end pairs |
 
-The event files hold frame indices rather than times; interaction and eating are indexed against the food camera, grooming against the top camera. The script converts both to the synchronized time base.
+The event files hold frame indices; interaction and eating are indexed against the food camera, grooming against the top camera. The script converts both to the synchronized time base.
 
 ### 2. Analysis and figures
 
-The pipeline scripts load a folder of preprocessed session files, assemble them into the `mice_all` cell array used throughout, apply the exclusion criteria described in the manuscript, and then call the plotting and statistics functions section by section. They are written as MATLAB cell-mode scripts and are intended to be stepped through one section at a time rather than run end to end.
+The pipeline scripts load a folder of preprocessed session files, assemble them into the `mice_all` cell array used throughout, apply the exclusion criteria described in the manuscript, and then call the plotting and statistics functions section by section. They are written as MATLAB cell-mode scripts and are intended to be stepped through one section at a time rather than run end-to-end.
 
 - `one_source_maze/one_source_maze_pipeline.m`
 - `three_sources_maze/three_sources_maze_pipeline.m`
@@ -106,7 +106,7 @@ Preprocessed sessions are stored as numeric matrices, one row per tracking frame
 ```
 1 time   2 x   3 y   4 465 nm   5 405 nm   6 dF/F   7 speed   8 zone (1-4)
 9 distance to water   10 distance to object   11 unused
-12 door (0 closed / 1 open / 2 closed again)   13 grooming   14 climbing
+12 door (0 closed / 1 open / 2 closed again)   13 grooming 
 ```
 
 `cheeseboard` (10 columns):
