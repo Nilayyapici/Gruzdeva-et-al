@@ -4,7 +4,7 @@ The scripts in this repository are session-specific templates. Each preprocessin
 
 **Before running anything, set the paths and per-session values listed below.** Every script that needs editing is listed here, with the line numbers as of the current version.
 
-Use `Figures_code.xlsx` to work backwards from a figure panel to the script and section that produce it.
+Use `Figures_code.xlsx` to work backwards from a figure panel to the script and section that produces it.
 
 ---
 
@@ -137,7 +137,7 @@ They are cell-mode scripts and are meant to be stepped through section by sectio
 ## Checklist before each run
 
 - [ ] `common_functions`, `slanCM`, and the module folder are on the path
-- [ ] The `cd` or `folderPath` at the top of the script points at your data
+- [ ] The `cd` or `folderPath` at the top of the script points to your data
 - [ ] All `readtable` file names point at this session's files
 - [ ] Door frame numbers match this session's video
 - [ ] Grooming, eating, and interaction frames are this session's
