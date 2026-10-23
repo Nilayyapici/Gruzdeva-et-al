@@ -8,7 +8,7 @@ The code processes fiber photometry recordings of AgRP neuron activity acquired 
 
 ## Requirements
 
-- MATLAB R2019b or later
+- MATLAB R2022a or later
 - Statistics and Machine Learning Toolbox (`fitlm`, `anova1`, `anovan`, `fitrm`, `ranova`, `multcompare`, `ranksum`, `kruskalwallis`, `ksdensity`)
 - Image Processing Toolbox (`imgaussfilt`, used for spatial smoothing of occupancy and activity heatmaps)
 
