@@ -27,7 +27,7 @@ The repository is divided into four modules for the analysis of the data from a 
 
 | Folder | Contents |
 | --- | --- |
-| `one_source_maze` | Three-arm maze with a single food source; includes the GLM analyses and the example session |
+| `one_source_maze` | Three-arm maze with a single food source; includes the GLM analyses, the example session, the water-discovery analysis in thirsty mice for Figure S3I–K (`one_source_thirst.m`), and `frame_annotator.m`, a frame-by-frame video tool for scoring event onsets and offsets |
 | `three_sources_maze` | Three-arm maze with three sources behind mesh doors, across sessions and light/dark conditions |
 | `cheeseboard` | Open cheeseboard arena, spatial learning and memory recall |
 | `object_water` | Three-arm maze with water and a neutral object in place of food, used as the control for reward specificity |
@@ -36,7 +36,7 @@ The repository is divided into four modules for the analysis of the data from a 
 
 Within each module, `functions` are organized into subfolders by analysis type — `activity`, `behavior`, `heatmaps`, `runs_analysis`, and, depending on the module, `correlations`, `event_aligned_plots`, `heatmaps_distance_plots`, `GLM`, `helpers`, `validation`, and `setup_sessions_reorganization`. Adding a module with `addpath(genpath(...))` picks all of these up.
 
-`common_functions` contains `detect_food_runs`, which segments continuous tracking into individual approach runs toward and away from a food source; `findnearest`, which returns the index of the sample closest to a target value and is used throughout preprocessing to align event times to recorded samples; and `blueWhiteRed`, the diverging colormap used for the activity and difference heatmaps. `detect_food_runs` applies the same detection logic to the single-source and three-source datasets, so run-based measures are directly comparable across the two paradigms; it accepts either data layout and is configured through an optional `cfg` struct documented in its header.
+`common_functions` contains `detect_food_runs`, which segments continuous tracking into individual approach runs toward and away from a food source; `findnearest`, which returns the index of the sample closest to a target value and is used throughout preprocessing to align event times to recorded samples; `blueWhiteRed` and `redblue`, the diverging colormaps used for the activity, difference, and slope heatmaps; `fisher_z` and `inverse_fisher_z`, used to average correlation coefficients across animals; and `sigstar`, which adds significance markers to plots. `detect_food_runs` applies the same detection logic to the single-source and three-source datasets, so run-based measures are directly comparable across the two paradigms; it accepts either data layout and is configured through an optional `cfg` struct documented in its header.
 
 ## Running the code
 
@@ -79,7 +79,7 @@ The pipeline scripts load a folder of preprocessed session files, assemble them 
 - `cheeseboard/Cheeseboard_pipeline.m` and `cheeseboard/Cheeseboard_learning.m`
 - `object_water/object_water_pipeline.m`
 
-Set the data directory at the top of the pipeline script before running it. Most analysis functions take an `options` struct as their final argument, which sets thresholds, smoothing windows, axis limits, and figure sizes. Defaults reproduce the values used in the manuscript; the header comment of each function documents its fields. Figures are exported as vector SVG for assembly in Illustrator via `export_vector_svg`.
+Set the data directory at the top of the pipeline script before running it. Most analysis functions take an `options` struct as their final argument, which sets thresholds, smoothing windows, axis limits, and figure sizes. Defaults reproduce the values used in the manuscript; the header comment of each function documents its fields. Figures are exported as vector SVG or PDF for assembly in Illustrator, through `saveas`, `print`, or `exportgraphics`; the three-source pipeline uses `export_vector_svg` (in `three_sources_maze/functions/behavior`).
 
 ## Data format
 
@@ -94,7 +94,7 @@ Preprocessed sessions are stored as numeric matrices, one row per tracking frame
 10 grooming (0/1)   11 dF/F (%)   12 x centroid   13 y centroid
 ```
 
-x and y are in camera pixels; nose coordinates are from DeepLabCut. Speed is computed from the centroid, and distance to food from the nose. The pipeline appends further columns after loading: 14 maze zone (`defineMazeZones`), 15 acceleration, 16 angle between head direction and the vector to food, 17 angle between head direction and the closest path, and 18 time elapsed from food discovery.
+x and y are in camera pixels; nose coordinates are from DeepLabCut. Speed is computed from the centroid, and distance to food from the nose. The pipeline appends further columns after loading: 14 maze zone (`defineMazeZones`), 15 acceleration, 16 angle between head direction and the vector to food, 17 angle between head direction and the closest path, 18 time elapsed from food discovery, and 19 total distance traveled.
 
 `three_sources_maze` (13 columns):
 
@@ -122,11 +122,7 @@ x and y are in camera pixels; nose coordinates are from DeepLabCut. Speed is com
 
 ## GLM analysis
 
-The models comparing predictors of AgRP activity live in `one_source_maze/functions/GLM`:
-
-- `glm_dff_analysis.m` fits models predicting z-scored dF/F from behavioral predictors for a given nutritional state and food source, with cross-validation and a circular-shift shuffle control.
-- `glm_dff_model_comparison.m` compares the candidate model set reported in Table S2.
-- `glm_dff_per_animal.m` fits the same models within individual animals.
+The models comparing predictors of AgRP activity are in `one_source_maze/functions/GLM/glm_dff_model_comparison.m`. For a given nutritional state and food source, it fits each candidate model predicting z-scored dF/F from behavioral predictors separately in each animal, with cross-validation and a circular-shift shuffle control, and plots the group summaries. This is the model set reported in Table S2 and Figures 1G,H and S2. It is called from the "GLM per mouse models comparision" section of `one_source_maze_pipeline.m`, after the sections that add columns 14–19. Its options are documented in the function header.
 
 ## Data availability
 

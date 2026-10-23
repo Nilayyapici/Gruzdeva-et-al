@@ -18,7 +18,7 @@ addpath(genpath('slanCM'));
 addpath(genpath('one_source_maze'));   % or another module
 ```
 
-Every script begins with a `cd` or a `folderPath` assignment pointing at the original data location on the author's machine. Replace it with the path to your own copy before running. These are noted individually below.
+Every script begins with an empty `cd('')` or `folderPath = ''`. Set it to the path of your own copy of the data before running. These are noted individually below.
 
 ---
 
@@ -35,6 +35,8 @@ Two versions of the preprocessing script are provided.
 | 4 | Replace the `cd` path with the path to your copy of `one_source_maze/example_data` |
 
 Then step through the script from the top. This is the quickest way to confirm the pipeline runs before working with your own recordings.
+
+The save step at the end of the script is commented out, so the example run does not write a session file. To pass the result to the pipeline, uncomment those lines and name the variable and file by the convention in section 5.
 
 ### Your own sessions
 
@@ -57,7 +59,8 @@ Two further sets of values are session-specific:
 
 | Line | What it is |
 | --- | --- |
-| 234–236 | `door_remov1`, `door1`, `door_remov2` — top-camera frame numbers at which the door was removed and replaced, read off the video. The values in the file are from the example session and are wrong for any other. |
+| 90–93 | `x1_door`, `y1_door`, `x2_door`, `y2_door` — pixel coordinates of the door ends in the top-camera image. Remeasure them if the camera position changes. |
+| 234–237 | `door_remov1`, `door1`, `door_remov2`, `door2` — top-camera frame numbers at which the door was removed and replaced, read off the video. The values in the file are from the example session and are wrong for any other. |
 
 ### Scored-event file format
 
@@ -96,7 +99,7 @@ Door open and close events should be filled in manually from the session video
 
 **`cheeseboard/Cheeseboard_learning.m`** runs the learning analysis across animals. Set `mouseNames` and `baseDir` near line 24 to the animals to include and the top-level cheeseboard data folder. The batch-conversion steps at the top of the file are commented out and are only needed when processing new recordings; each carries its own `baseDir` to set.
 
-Several cheeseboard functions also carry the original data path as a default argument — `analyzeAllMice_learning_cheeseboard.m`, `plotMouseTracksWithDFF.m`, `processBatchTrials.m`, `organizeFilesByMouseAndTrial.m`, and `validate_path_lengths.m`. Pass `baseDir` explicitly when calling them rather than relying on the default.
+`analyzeAllMice_learning_cheeseboard.m`, `plotMouseTracksWithDFF.m`, `processBatchTrials.m`, and `validate_path_lengths.m` take the data folder as an argument and have no default; pass it explicitly. `organizeFilesByMouseAndTrial.m` has `sourceDir` and `baseDestDir` to set at the top of the function.
 
 ---
 
